@@ -51,11 +51,3 @@ BookStream │ ├── src │ ├── BookStream.Domain │ │ ├── E
     ```bash
     dotnet run --project src/BookStream.Web/BookStream.Web.csproj
     ```
-
-## Contributing
-
-Feel free to submit issues or pull requests if you find any bugs or have suggestions for improvements.
-
-## License
-
-This project is licensed under the MIT License.
