@@ -5,7 +5,7 @@ namespace BookStream.Domain.Books.Entities
         /// <summary>
         /// BookId
         /// </summary>
-        public Guid BookId { get; set; }
+        public Guid Id { get; set; }
         
         /// <summary>
         /// Title
@@ -30,7 +30,7 @@ namespace BookStream.Domain.Books.Entities
         /// <summary>
         /// Description
         /// </summary>
-        public required string description { get; set; }
+        public required string Description { get; set; }
         
         /// <summary>
         /// PublishedDate
@@ -46,5 +46,10 @@ namespace BookStream.Domain.Books.Entities
         /// Create at date
         /// </summary>
         public DateTime CreateDat { get; set; }
+
+        /// <summary>
+        /// Price
+        /// </summary>
+        public decimal Price { get; set; }
     }
 }

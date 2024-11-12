@@ -5,7 +5,7 @@ namespace BookStream.Application.Books.DTOs
         /// <summary>
         /// BookId
         /// </summary>
-        public Guid BookId { get; set; }
+        public Guid Id { get; set; }
         
         /// <summary>
         /// Title
@@ -18,9 +18,9 @@ namespace BookStream.Application.Books.DTOs
         public required string Author { get; set; }
         
         /// <summary>
-        /// CategoryId
+        /// Category Id
         /// </summary>
-        public Guid CategoryId { get; set; }
+        public required Guid CategoryId { get; set; }
         
         /// <summary>
         /// ISBN
@@ -30,7 +30,7 @@ namespace BookStream.Application.Books.DTOs
         /// <summary>
         /// Description
         /// </summary>
-        public required string description { get; set; }
+        public required string Description { get; set; }
         
         /// <summary>
         /// PublishedDate
@@ -46,5 +46,10 @@ namespace BookStream.Application.Books.DTOs
         /// Create at date
         /// </summary>
         public DateTime CreateDat { get; set; }
+
+        /// <summary>
+        /// Price
+        /// </summary>
+        public decimal Price { get; set; }
     }
 }

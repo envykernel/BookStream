@@ -12,12 +12,16 @@ namespace BookStream.Infrastructure.Data
 
         public DbSet<Book> Books { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseNpgsql("Your_PostgreSQL_Connection_String_Here");
-            }
+          modelBuilder.Entity<Book>(entity=>{
+              entity.ToTable("books");
+              entity.HasKey(e=>e.Id);
+              entity.Property(e=>e.Title).HasColumnName("title").IsRequired().HasMaxLength(100);
+              entity.Property(e=>e.Author).HasColumnName("author").IsRequired().HasMaxLength(100);
+              entity.Property(e=>e.PublishedDate).HasColumnName("published_date").HasColumnType("timestamp").IsRequired();
+              entity.Property(e=>e.Price).HasColumnName("price").IsRequired();
+          });
         }
     }
 }
