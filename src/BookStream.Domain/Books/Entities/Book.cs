@@ -1,6 +1,8 @@
+using BookStream.Domain.Common.Interfaces;
+
 namespace BookStream.Domain.Books.Entities
 {
-    public class Book
+    public class Book:IEntity
     {
         /// <summary>
         /// BookId

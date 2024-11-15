@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BookStream.Infrastructure.Configurations
+
+namespace BookStream.Infrastructure.Common
 {
-    public static class ServiceCollectionExtensions
+    public static class DependencyInjection
     {
-       public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             /// Add the StatisticsDbContext to the services
             services.AddDbContextFactory<BookStreamDbContext>(options =>
