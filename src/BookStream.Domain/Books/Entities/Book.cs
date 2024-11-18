@@ -1,14 +1,15 @@
-using BookStream.Domain.Common.Interfaces;
+using BookStream.Domain.Books.ValueObjects;
+using BookStream.Domain.Common.Abstractions;
 
 namespace BookStream.Domain.Books.Entities
 {
-    public class Book:IEntity
-    {
+    public class Book:BaseEntity
+    {   
         /// <summary>
-        /// BookId
+        /// ISBN 
         /// </summary>
-        public Guid Id { get; set; }
-        
+        public required ISBN ISBN { get; set; }
+
         /// <summary>
         /// Title
         /// </summary>
@@ -23,11 +24,6 @@ namespace BookStream.Domain.Books.Entities
         /// CategoryId
         /// </summary>
         public Guid CategoryId { get; set; }
-        
-        /// <summary>
-        /// ISBN
-        /// </summary>
-        public required string ISBN { get; set;  }
         
         /// <summary>
         /// Description
