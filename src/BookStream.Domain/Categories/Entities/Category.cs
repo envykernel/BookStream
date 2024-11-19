@@ -1,3 +1,6 @@
+using BookStream.Domain.Categories.Specifications;
+using BookStream.Domain.Common.Interfaces;
+
 namespace BookStream.Domain.Categories.Entities
 {
     /// <summary>
@@ -15,10 +18,27 @@ namespace BookStream.Domain.Categories.Entities
         /// </summary>
         public string Name { get; private set; }
 
-        public Category(Guid id, string name)
+        /// <summary>
+        /// The status of the category
+        /// </summary>
+        public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Create a new category
+        /// </summary>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public Category(string name)
         {
-            Id = id;
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            var  nameSpecification = new ValidCategoryNameSpecification();
+            if(!nameSpecification.IsSatisfiedBy(name))
+            {
+                throw new ArgumentException(nameSpecification.ErrorMessage);
+            }
+
+            Id = Guid.NewGuid();
+            Name = name;
         }
+        
     }
 }

@@ -1,8 +1,8 @@
 using BookStream.Domain.Books.Entities;
 
-namespace BookStream.Domain.Books.Interfaces
+namespace BookStream.Application.Common.Interfaces.Repositories
 {
-    /// <summary>
+     /// <summary>
     /// Interface for book repository, defining the basic operations for managing books.
     /// </summary>
     public interface IBookRepository

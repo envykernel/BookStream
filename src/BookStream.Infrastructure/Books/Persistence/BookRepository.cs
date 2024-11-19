@@ -1,5 +1,5 @@
+using BookStream.Application.Common.Interfaces.Repositories;
 using BookStream.Domain.Books.Entities;
-using BookStream.Domain.Books.Interfaces;
 using BookStream.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
