@@ -1,18 +1,13 @@
 using BookStream.Domain.Categories.Specifications;
-using BookStream.Domain.Common.Interfaces;
+using BookStream.Domain.Common.Abstractions;
 
 namespace BookStream.Domain.Categories.Entities
 {
     /// <summary>
     /// Category entity
     /// </summary>
-    public class Category
+    public class Category:BaseEntity
     {
-        /// <summary>
-        /// The unique identifier for the category
-        /// </summary>
-        public Guid Id { get; private set; }
-
         /// <summary>
         /// The name of the category
         /// </summary>

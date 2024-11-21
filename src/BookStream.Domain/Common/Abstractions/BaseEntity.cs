@@ -10,7 +10,7 @@ namespace BookStream.Domain.Common.Abstractions
         /// <summary>
         /// The date and time the entity was created
         /// </summary>
-        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The date and time the entity was last modified
