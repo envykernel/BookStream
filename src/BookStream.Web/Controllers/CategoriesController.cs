@@ -19,6 +19,7 @@ namespace BookStream.Web.Controllers
             _mediator = mediator;
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request)
         {
             var command = new CreateCategoryCommand{Name = request.Title};

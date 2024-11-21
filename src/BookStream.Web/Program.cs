@@ -1,3 +1,5 @@
+using BookStream.Application.Common;
+using BookStream.Infrastructure.Common;
 using BookStream.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,12 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add services to the container.
-builder.Services.AddControllers();
-
 // Configure PostgreSQL DbContext
 builder.Services.AddDbContext<BookStreamDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddApplicationLayer();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+
+
+// Add services to the container.
+builder.Services.AddControllers();
+
 
 
 var app = builder.Build();
@@ -26,6 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 
 var summaries = new[]
 {

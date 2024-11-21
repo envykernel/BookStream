@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStream.Web.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class BookController : ControllerBase
     {
