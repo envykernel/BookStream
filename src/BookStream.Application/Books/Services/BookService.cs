@@ -1,8 +1,8 @@
 using AutoMapper;
 using BookStream.Application.Books.DTOs;
 using BookStream.Application.Books.Interfaces;
+using BookStream.Application.Common.Interfaces.Repositories;
 using BookStream.Domain.Books.Entities;
-using BookStream.Domain.Books.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace BookStream.Application.Books.Services
