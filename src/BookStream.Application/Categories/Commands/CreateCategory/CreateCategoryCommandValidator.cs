@@ -22,8 +22,13 @@ namespace BookStream.Application.Categories.Commands.CreateCategory
 
         private async Task<bool> BeUniqueName(string name, CancellationToken cancellationToken)
         {
-            var categories = await _categoryRepository.GetCategoriesAsync();
-            return categories.All(x => x.Name != name);
+            var categoriesResult = await _categoryRepository.GetCategoriesAsync();
+            if(!categoriesResult.IsSuccess)
+            {
+                return false;
+            }
+            
+            return categoriesResult.Value.All(x => x.Name != name);
         }
     }
 }

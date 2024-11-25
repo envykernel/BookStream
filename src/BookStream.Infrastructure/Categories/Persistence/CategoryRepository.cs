@@ -1,20 +1,25 @@
 using BookStream.Application.Categories.Dtos;
+using BookStream.Application.Categories.Queries.GetAllActiveCategories;
 using BookStream.Application.Common.Interfaces.Repositories;
 using BookStream.Domain.Categories.Entities;
+using BookStream.Domain.Common.ResultPattern;
 using BookStream.Infrastructure.Categories.Persistence.Models;
+using Microsoft.Extensions.Logging;
 
 namespace BookStream.Infrastructure.Categories.Persistence
 {
     public class CategoryRepository : ICategoryRepository
     {
          private readonly Supabase.Client _supabaseClient;
+        private readonly ILogger<CategoryRepository> _logger;
 
-        public CategoryRepository(Supabase.Client supabaseClient)
+        public CategoryRepository(ILogger<CategoryRepository> logger, Supabase.Client supabaseClient)
         {
             _supabaseClient = supabaseClient;
+            _logger = logger;
         }
 
-        public async Task<Guid> CreateCategoryAsync(Category category)
+        public async Task<Result<Guid>> CreateCategoryAsync(Category category)
         {
             try
             {
@@ -31,29 +36,83 @@ namespace BookStream.Infrastructure.Categories.Persistence
 
                 var insertedCategory = result.Models.FirstOrDefault();
 
-                return insertedCategory!=null?insertedCategory.Id:throw new Exception("Category not created");
+                if(insertedCategory is null)
+                {
+                    return Result<Guid>.Failure(Error.Failure("An error occurred while creating the category","An error occurred while creating the category"));
+                }
+
+                return Result<Guid>.Success(insertedCategory.Id);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _logger.LogError(ex,"An error occurred while creating the category");
+                return Result<Guid>.Failure(Error.Failure("Creation error","An error occurred while creating the category"));
+            }
+
+        }
+
+        public async Task<Result<IEnumerable<CategoryDto>>> GetActiveCategoriesAsync(GetAllActiveCategoriesWithPaginationQuery request)
+        {
+            try
+            {
+                var result = await _supabaseClient
+                .From<CategoryModel>()
+                .Where(x=>x.IsActive== true)
+                .Range(request.From,request.To)
+                .Get();
+
+                return Result<IEnumerable<CategoryDto>>.Success(result.Models.Select(x=>x.ToDto()));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"An error occurred while fetching active categories");
+                return Result<IEnumerable<CategoryDto>>.Failure(Error.Failure("Featching error","An error occurred while fetching active categories"));
                 throw;
             }
 
         }
 
-        public Task<IEnumerable<CategoryDto>> GetActiveCategoriesAsync()
+        public async Task<Result<IEnumerable<CategoryDto>>> GetCategoriesAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _supabaseClient
+                .From<CategoryModel>()
+                .Get();
+
+                return Result<IEnumerable<CategoryDto>>.Success(result.Models.Select(x=>x.ToDto())); 
+            }
+            catch (Exception ex)
+            {
+                
+                _logger.LogError(ex,"An error occurred while fetching categories");
+                return Result<IEnumerable<CategoryDto>>.Failure(Error.Failure("An error occurred while fetching categories",ex.Message));
+            }
+
         }
 
-        public Task<IEnumerable<CategoryDto>> GetCategoriesAsync()
+        public async Task<Result<CategoryDto>> GetCategoryByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var result = await _supabaseClient
+                .From<CategoryModel>()
+                .Where(x=>x.Id== id)
+                .Select(x=>new object[]{x.Id,x.Title,x.IsActive})
+                .Single();
 
-        public Task<CategoryDto> GetCategoryByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
+                if(result is null)
+                {
+                    return Result<CategoryDto>.Failure(Error.NotFound("Category not found","No category found with the specified id"));
+                }
+
+                return Result<CategoryDto>.Success(result.ToDto());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"An error occurred while fetching the category");
+                return Result<CategoryDto>.Failure(Error.Failure("An error occurred while fetching the category",ex.Message));
+            }
         }
     }
 }

@@ -16,5 +16,10 @@ namespace BookStream.Application.Categories.Dtos
         /// The name of the category
         /// </summary>
         public required string Name { get; set; }
+
+        /// <summary>
+        /// The status of the category
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

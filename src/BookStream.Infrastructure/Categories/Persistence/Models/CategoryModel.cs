@@ -1,5 +1,7 @@
 
 
+using BookStream.Application.Categories.Dtos;
+using BookStream.Domain.Categories.Entities;
 using  Supabase.Postgrest.Attributes;
 using Supabase.Postgrest.Models;
 
@@ -49,5 +51,17 @@ namespace BookStream.Infrastructure.Categories.Persistence.Models
         /// </summary>
         [Column("modified_by")]
         public string? ModifiedBy { get; set; }
+
+
+        public CategoryDto ToDto()
+        {
+            return new CategoryDto
+            {
+                Id = Id,
+                Name = Title,
+                IsActive = IsActive
+            };
+        }
+
     }
 }

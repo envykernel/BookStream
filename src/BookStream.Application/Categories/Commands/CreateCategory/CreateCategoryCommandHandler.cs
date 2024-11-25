@@ -1,12 +1,13 @@
 
 using BookStream.Application.Common.Interfaces.Repositories;
 using BookStream.Domain.Categories.Entities;
+using BookStream.Domain.Common.ResultPattern;
 using Microsoft.Extensions.Logging;
 
 
 namespace BookStream.Application.Categories.Commands.CreateCategory
 {
-    public class CreateCategoryCommandHandler:IRequestHandler<CreateCategoryCommand,Guid>
+    public class CreateCategoryCommandHandler:IRequestHandler<CreateCategoryCommand,Result<Guid>>
     {
         private readonly ILogger<CreateCategoryCommandHandler> _logger;
         private readonly ICategoryRepository _categoryRepository;
@@ -17,13 +18,13 @@ namespace BookStream.Application.Categories.Commands.CreateCategory
             _categoryRepository = categoryRepository;
         }
         
-        public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
            var category = new Category(request.Name);
 
-           await _categoryRepository.CreateCategoryAsync(category);
+           var result = await _categoryRepository.CreateCategoryAsync(category);
 
-           return category.Id;
+           return result;
         }
     }
     
